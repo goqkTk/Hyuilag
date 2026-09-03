@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>휴이락 - 회원가입</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+  <div class="card">
+
+    <!-- ===================== STEP 1 ===================== -->
+    <section class="step" id="step-1" data-step="1">
+      <header class="header">
+        <div class="logo">휴이락<br>로고</div>
+        <h1 class="title">휴이락</h1>
+        <p class="subtitle">회원가입</p>
+
+        <div class="stepper" role="list" aria-label="가입 진행 단계">
+          <div class="stepper-node active" data-node="1" role="listitem">
+            <span class="circle">1</span>
+          </div>
+          <div class="stepper-line"></div>
+          <div class="stepper-node" data-node="2" role="listitem">
+            <span class="circle">2</span>
+          </div>
+          <div class="stepper-line"></div>
+          <div class="stepper-node" data-node="3" role="listitem">
+            <span class="circle">3</span>
+          </div>
+          <div class="stepper-line"></div>
+          <div class="stepper-node" data-node="4" role="listitem">
+            <span class="circle">4</span>
+          </div>
+        </div>
+
+        <p class="login-hint">이미 계정이 있으신가요? <a href="#" class="link">로그인</a></p>
+      </header>
+
+      <div class="body">
+        <div class="field">
+          <label class="field-label" for="input-name"><span class="dot"></span>이름</label>
+          <input type="text" id="input-name" class="text-input" placeholder="홍길동" autocomplete="name">
+          <p class="field-error" id="error-name" hidden>이름을 입력해주세요</p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="input-phone"><span class="dot"></span>전화번호</label>
+          <input type="tel" id="input-phone" class="text-input" placeholder="010-1234-5678" inputmode="numeric" autocomplete="tel" maxlength="13">
+          <p class="field-error" id="error-phone" hidden>올바른 전화번호를 입력해주세요</p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="input-birth"><span class="dot"></span>생년월일</label>
+          <input type="text" id="input-birth" class="text-input" placeholder="YYYY-MM-DD" inputmode="numeric" autocomplete="bday" maxlength="10">
+          <p class="field-error" id="error-birth" hidden>생년월일 8자리를 입력해주세요</p>
+        </div>
+
+        <div class="field">
+          <label class="field-label"><span class="dot"></span>성별</label>
+          <div class="gender-select" role="radiogroup" aria-label="성별">
+            <button type="button" id="gender-male" class="gender-btn active" data-gender="male" role="radio" aria-checked="true">
+              <svg class="gender-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="10" cy="14" r="5"/><path d="M19 5L13.5 10.5M19 5H14M19 5V10"/></svg>
+              <span>남성</span>
+            </button>
+            <button type="button" id="gender-female" class="gender-btn" data-gender="female" role="radio" aria-checked="false">
+              <svg class="gender-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="9" r="5"/><path d="M12 14v7M9 18h6"/></svg>
+              <span>여성</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="input-lounge"><span class="dot"></span>소속 라운지</label>
+          <div class="select-wrap">
+            <select id="input-lounge" class="select-input">
+              <option value="" selected disabled>라운지를 선택해주세요</option>
+              <option value="gangnam">강남 라운지</option>
+              <option value="hongdae">홍대 라운지</option>
+              <option value="bundang">분당 라운지</option>
+              <option value="none">소속 라운지 없음</option>
+            </select>
+            <span class="select-chevron" aria-hidden="true">▾</span>
+          </div>
+          <p class="field-error" id="error-lounge" hidden>라운지를 선택해주세요</p>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <button type="button" class="btn btn-primary btn-full" id="next-1" disabled>다음</button>
+      </footer>
+    </section>
+
+    <!-- ===================== STEP 2 ===================== -->
+    <section class="step hidden" id="step-2" data-step="2">
+      <header class="header">
+        <div class="stepper" role="list" aria-label="가입 진행 단계">
+          <div class="stepper-node done" data-node="1" role="listitem"><span class="circle check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="stepper-line done"></div>
+          <div class="stepper-node active" data-node="2" role="listitem"><span class="circle">2</span></div>
+          <div class="stepper-line"></div>
+          <div class="stepper-node" data-node="3" role="listitem"><span class="circle">3</span></div>
+          <div class="stepper-line"></div>
+          <div class="stepper-node" data-node="4" role="listitem"><span class="circle">4</span></div>
+        </div>
+        <p class="hint-text">입력하면 더 정확한 운동을 추천받을 수 있어요.<br>나중에 수정할 수 있어요.</p>
+      </header>
+
+      <div class="body">
+        <div class="row-2col">
+          <div class="field">
+            <label class="field-label" for="input-height">키</label>
+            <div class="text-input dashed"><input type="number" id="input-height" placeholder="0" class="bare-input" inputmode="numeric"><span class="unit">cm</span></div>
+          </div>
+          <div class="field">
+            <label class="field-label" for="input-weight">체중</label>
+            <div class="text-input dashed"><input type="number" id="input-weight" placeholder="0" class="bare-input" inputmode="numeric"><span class="unit">kg</span></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">주요 불편 부위 <span class="muted-inline">(복수 선택)</span></label>
+          <div class="pill-grid" id="trouble-select" role="group" aria-label="주요 불편 부위">
+            <button type="button" class="pill" data-value="waist" aria-pressed="false">허리</button>
+            <button type="button" class="pill" data-value="knee" aria-pressed="false">무릎</button>
+            <button type="button" class="pill" data-value="shoulder" aria-pressed="false">어깨</button>
+            <button type="button" class="pill" data-value="neck" aria-pressed="false">목</button>
+            <button type="button" class="pill" data-value="ankle" aria-pressed="false">발목</button>
+            <button type="button" class="pill" data-value="pelvis" aria-pressed="false">골반</button>
+            <button type="button" class="pill" data-value="other" aria-pressed="false">그 외</button>
+            <button type="button" class="pill" data-value="none" aria-pressed="false">없음</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">운동 경험</label>
+          <div class="option-list" id="movement-select" role="radiogroup" aria-label="운동 경험">
+            <button type="button" class="option-row active" data-value="almost-none" role="radio" aria-checked="true">
+              <span class="radio-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span> 거의 없어요
+            </button>
+            <button type="button" class="option-row" data-value="sometime" role="radio" aria-checked="false">
+              <span class="radio-dot" aria-hidden="true"></span> 가끔 해요 (월 1~2회)
+            </button>
+            <button type="button" class="option-row" data-value="regular" role="radio" aria-checked="false">
+              <span class="radio-dot" aria-hidden="true"></span> 규칙적으로 해요
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer footer-split">
+        <button type="button" class="btn btn-outline" id="back-2">이전</button>
+        <button type="button" class="btn btn-primary btn-grow" id="next-2">다음</button>
+      </footer>
+      <p class="skip-link" id="skip-2">
+        <span class="link">건너뛰기</span> <span class="muted">(나중에 입력)</span>
+      </p>
+    </section>
+
+    <!-- ===================== STEP 3 ===================== -->
+    <section class="step hidden" id="step-3" data-step="3">
+      <header class="header">
+        <div class="stepper" role="list" aria-label="가입 진행 단계">
+          <div class="stepper-node done" data-node="1" role="listitem"><span class="circle check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="stepper-line done"></div>
+          <div class="stepper-node done" data-node="2" role="listitem"><span class="circle check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="stepper-line done"></div>
+          <div class="stepper-node active" data-node="3" role="listitem"><span class="circle">3</span></div>
+          <div class="stepper-line"></div>
+          <div class="stepper-node" data-node="4" role="listitem"><span class="circle">4</span></div>
+        </div>
+      </header>
+
+      <div class="body">
+        <div class="field">
+          <label class="field-label">약관 동의</label>
+
+          <div class="agree-box">
+            <label class="agree-all">
+              <input type="checkbox" id="agree-all">
+              <span class="checkbox-square">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </span>
+              <span class="agree-text">전체 동의하기</span>
+            </label>
+
+            <div class="agree-list">
+              <label class="agree-row">
+                <input type="checkbox" class="agree-required" id="agree-service">
+                <span class="checkbox-square">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span class="agree-text"><span class="tag-req">[필수]</span> 서비스 이용약관</span>
+                <span class="chevron" aria-hidden="true">›</span>
+              </label>
+
+              <label class="agree-row">
+                <input type="checkbox" class="agree-required" id="agree-privacy">
+                <span class="checkbox-square">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span class="agree-text"><span class="tag-req">[필수]</span> 개인정보 수집·이용 동의</span>
+                <span class="chevron" aria-hidden="true">›</span>
+              </label>
+
+              <label class="agree-row">
+                <input type="checkbox" class="agree-required" id="agree-sensitive">
+                <span class="checkbox-square">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span class="agree-text"><span class="tag-req">[필수]</span> 민감정보 처리 동의</span>
+                <span class="chevron" aria-hidden="true">›</span>
+              </label>
+
+              <label class="agree-row">
+                <input type="checkbox" id="agree-marketing">
+                <span class="checkbox-square">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span class="agree-text"><span class="tag-opt">[선택]</span> 마케팅 알림 수신 동의</span>
+                <span class="chevron" aria-hidden="true">›</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="notice notice-warning">
+          <p class="notice-title">민감정보 안내</p>
+          <p class="notice-body">신체 정보·건강 기록은 서비스 제공 목적으로만 사용되며 제3자에게 제공되지 않습니다</p>
+        </div>
+      </div>
+
+      <footer class="footer footer-split">
+        <button type="button" class="btn btn-outline" id="back-3">이전</button>
+        <button type="button" class="btn btn-primary btn-grow" id="next-3" disabled>다음</button>
+      </footer>
+    </section>
+
+    <!-- ===================== STEP 4 ===================== -->
+    <section class="step hidden" id="step-4" data-step="4">
+      <header class="header">
+        <div class="stepper" role="list" aria-label="가입 진행 단계">
+          <div class="stepper-node done" data-node="1" role="listitem"><span class="circle check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="stepper-line done"></div>
+          <div class="stepper-node done" data-node="2" role="listitem"><span class="circle check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="stepper-line done"></div>
+          <div class="stepper-node done" data-node="3" role="listitem"><span class="circle check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+          <div class="stepper-line done"></div>
+          <div class="stepper-node done" data-node="4" role="listitem"><span class="circle check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        </div>
+      </header>
+
+      <div class="body body-center">
+        <div class="complete-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2 class="complete-title">가입이 완료됐어요!</h2>
+        <p class="complete-sub"><span id="complete-name">OOO</span>님, 환영합니다<br>지금 바로 첫 체크를 시작해볼까요?</p>
+      </div>
+
+      <footer class="footer">
+        <button type="button" class="btn btn-primary btn-full" id="finish">첫 체크 시작하기</button>
+      </footer>
+    </section>
+
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
