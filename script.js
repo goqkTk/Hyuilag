@@ -1,5 +1,22 @@
+const state = {
+  step: 1,
+  gender: 'male',
+  trouble: new Set(),
+  movement: 'almost-none',
+};
+
+const steps = document.querySelectorAll('.step');
+
+function goToStep(n) {
+  state.step = n;
+  steps.forEach(s => s.classList.toggle('hidden', Number(s.dataset.step) !== n));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* Step 1: inputs + live validation */
+
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. 요소 선택 (로그인 및 회원가입 스텝)
+  // Navigation elements
   const loginStep = document.getElementById('login-step');
   const step1 = document.getElementById('step-1');
   const step2 = document.getElementById('step-2');
@@ -9,36 +26,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const goLoginBtn = document.getElementById('go-login');
   const goSignupBtn = document.getElementById('go-signup');
 
-  // 로그인 입력 필드 및 버튼
+  // Login inputs & buttons
   const loginName = document.getElementById('login-name');
   const loginPhone = document.getElementById('login-phone');
   const btnLogin = document.getElementById('btn-login');
 
-  // Step 1 입력 필드 및 버튼
-  const inputName = document.getElementById('input-name');
-  const inputPhone = document.getElementById('input-phone');
-  const inputBirth = document.getElementById('input-birth');
-  const inputLounge = document.getElementById('input-lounge');
-  const next1 = document.getElementById('next-1');
-
-  // Step 2, 3, 4 버튼들
-  const back2 = document.getElementById('back-2');
-  const next2 = document.getElementById('next-2');
-  const skip2 = document.getElementById('skip-2');
-  const back3 = document.getElementById('back-3');
-  const next3 = document.getElementById('next-3');
-  const finish = document.getElementById('finish');
-
-  // 약관 동의 관련 요소
-  const agreeAll = document.getElementById('agree-all');
-  const agreeRequiredList = document.querySelectorAll('.agree-required');
-  const agreeMarketing = document.getElementById('agree-marketing');
-
-  // 완료 화면 텍스트 요소
+  // Complete screen elements
   const completeName = document.getElementById('complete-name');
   const completeTitleText = document.getElementById('complete-title-text');
 
-  // Helper: 전화번호 자동 하이픈 (-)
+  // 전화번호 자동 하이픈 (-) 처리
   function formatPhone(value) {
     const numbers = value.replace(/[^0-9]/g, '');
     if (numbers.length <= 3) return numbers;
@@ -46,49 +43,37 @@ document.addEventListener('DOMContentLoaded', () => {
     return `${numbers.slice(0, 3)}-${numbers.slice(3, 7)}-${numbers.slice(7, 11)}`;
   }
 
-  // Helper: 생년월일 자동 하이픈 (YYYY-MM-DD)
-  function formatBirth(value) {
-    const numbers = value.replace(/[^0-9]/g, '');
-    if (numbers.length <= 4) return numbers;
-    if (numbers.length <= 6) return `${numbers.slice(0, 4)}-${numbers.slice(4)}`;
-    return `${numbers.slice(0, 4)}-${numbers.slice(4, 6)}-${numbers.slice(6, 8)}`;
-  }
-
-  // -------------------------------------------------------------
-  // 로그인 화면 전환 및 이벤트 처리
-  // -------------------------------------------------------------
-  if (goLoginBtn) {
-    goLoginBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      step1.classList.add('hidden');
-      loginStep.classList.remove('hidden');
-    });
-  }
-
-  if (goSignupBtn) {
-    goSignupBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      loginStep.classList.add('hidden');
-      step1.classList.remove('hidden');
-    });
-  }
-
   // 로그인 유효성 검사
   function validateLogin() {
-    const nameValid = loginName.value.trim().length > 0;
+    const isNameValid = loginName.value.trim().length > 0;
     const phoneDigits = loginPhone.value.replace(/[^0-9]/g, '');
-    const phoneValid = phoneDigits.length >= 10 && phoneDigits.length <= 11;
+    const isPhoneValid = phoneDigits.length >= 10 && phoneDigits.length <= 11;
 
-    btnLogin.disabled = !(nameValid && phoneValid);
+    btnLogin.disabled = !(isNameValid && isPhoneValid);
   }
 
+  // 화면 전환 이벤트
+  goLoginBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    step1.classList.add('hidden');
+    loginStep.classList.remove('hidden');
+  });
+
+  goSignupBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    loginStep.classList.add('hidden');
+    step1.classList.remove('hidden');
+  });
+
+  // 로그인 입력 이벤트
   loginName.addEventListener('input', validateLogin);
+
   loginPhone.addEventListener('input', (e) => {
     e.target.value = formatPhone(e.target.value);
     validateLogin();
   });
 
-  // 로그인 버튼 클릭 시 완료 화면(Step 4)으로 이동
+  // 로그인 실행
   btnLogin.addEventListener('click', () => {
     const nameVal = loginName.value.trim();
     completeName.textContent = nameVal;
@@ -98,112 +83,201 @@ document.addEventListener('DOMContentLoaded', () => {
     step4.classList.remove('hidden');
   });
 
-  // -------------------------------------------------------------
-  // 회원가입 Step 1 유효성 검사
-  // -------------------------------------------------------------
-  function validateStep1() {
-    const nameValid = inputName.value.trim().length > 0;
-    const phoneDigits = inputPhone.value.replace(/[^0-9]/g, '');
-    const phoneValid = phoneDigits.length >= 10 && phoneDigits.length <= 11;
-    const birthDigits = inputBirth.value.replace(/[^0-9]/g, '');
-    const birthValid = birthDigits.length === 8;
-    const loungeValid = inputLounge.value !== '';
-
-    next1.disabled = !(nameValid && phoneValid && birthValid && loungeValid);
+  // 기존 Step 1 유효성 검사 및 하이픈 자동입력
+  const inputPhone = document.getElementById('input-phone');
+  if (inputPhone) {
+    inputPhone.addEventListener('input', (e) => {
+      e.target.value = formatPhone(e.target.value);
+    });
   }
+});
 
-  inputName.addEventListener('input', validateStep1);
-  inputPhone.addEventListener('input', (e) => {
-    e.target.value = formatPhone(e.target.value);
-    validateStep1();
-  });
-  inputBirth.addEventListener('input', (e) => {
-    e.target.value = formatBirth(e.target.value);
-    validateStep1();
-  });
-  inputLounge.addEventListener('change', validateStep1);
+const nameInput = document.getElementById('input-name');
+const phoneInput = document.getElementById('input-phone');
+const birthInput = document.getElementById('input-birth');
+const loungeInput = document.getElementById('input-lounge');
+const next1 = document.getElementById('next-1');
 
-  // 성별 버튼 선택
-  const genderBtns = document.querySelectorAll('.gender-btn');
-  genderBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      genderBtns.forEach(b => {
-        b.classList.remove('active');
-        b.setAttribute('aria-checked', 'false');
+function formatPhone(digits) {
+  digits = digits.slice(0, 11);
+  if (digits.length < 4) return digits;
+  if (digits.length < 8) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+}
+
+phoneInput.addEventListener('input', () => {
+  const digits = phoneInput.value.replace(/\D/g, '');
+  phoneInput.value = formatPhone(digits);
+  validateStep1();
+});
+
+function formatBirth(digits) {
+  digits = digits.slice(0, 8);
+  if (digits.length < 5) return digits;
+  if (digits.length < 7) return `${digits.slice(0, 4)}-${digits.slice(4)}`;
+  return `${digits.slice(0, 4)}-${digits.slice(4, 6)}-${digits.slice(6)}`;
+}
+
+birthInput.addEventListener('input', () => {
+  const digits = birthInput.value.replace(/\D/g, '');
+  birthInput.value = formatBirth(digits);
+  validateStep1();
+});
+
+nameInput.addEventListener('input', validateStep1);
+loungeInput.addEventListener('change', validateStep1);
+
+function isValidPhone(value) {
+  return /^01[016789]-\d{3,4}-\d{4}$/.test(value);
+}
+
+function isValidBirth(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [y, m, d] = value.split('-').map(Number);
+  if (m < 1 || m > 12) return false;
+  const daysInMonth = new Date(y, m, 0).getDate();
+  if (d < 1 || d > daysInMonth) return false;
+  return y >= 1900 && y <= new Date().getFullYear();
+}
+
+function showError(id, show) {
+  document.getElementById(id).hidden = !show;
+}
+
+function validateStep1() {
+  const nameOk = nameInput.value.trim().length > 0;
+  const phoneOk = isValidPhone(phoneInput.value.trim());
+  const birthOk = isValidBirth(birthInput.value.trim());
+  const loungeOk = !!loungeInput.value;
+
+  showError('error-name', nameInput.value.length > 0 && !nameOk);
+  showError('error-phone', phoneInput.value.length > 0 && !phoneOk);
+  showError('error-birth', birthInput.value.length > 0 && !birthOk);
+
+  next1.disabled = !(nameOk && phoneOk && birthOk && loungeOk);
+  return next1.disabled === false;
+}
+
+next1.addEventListener('click', () => {
+  if (validateStep1()) goToStep(2);
+});
+
+/* Gender */
+
+document.querySelectorAll('.gender-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.gender-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-checked', 'false');
+    });
+    btn.classList.add('active');
+    btn.setAttribute('aria-checked', 'true');
+    state.gender = btn.dataset.gender;
+  });
+});
+
+/* Step 2: trouble areas & dashed input support */
+
+const heightInput = document.getElementById('input-height');
+const weightInput = document.getElementById('input-weight');
+
+[heightInput, weightInput].forEach(input => {
+  input.addEventListener('input', (e) => {
+    const parent = e.target.closest('.text-input.dashed');
+    if (parent) {
+      if (e.target.value.trim() !== '') {
+        parent.classList.add('filled');
+      } else {
+        parent.classList.remove('filled');
+      }
+    }
+  });
+});
+
+document.querySelectorAll('#trouble-select .pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    const value = pill.dataset.value;
+    if (value === 'none') {
+      document.querySelectorAll('#trouble-select .pill').forEach(p => {
+        p.classList.remove('active');
+        p.setAttribute('aria-pressed', 'false');
       });
-      btn.classList.add('active');
-      btn.setAttribute('aria-checked', 'true');
+      state.trouble.clear();
+      pill.classList.add('active');
+      pill.setAttribute('aria-pressed', 'true');
+      state.trouble.add('none');
+      return;
+    }
+    const noneBtn = document.querySelector('#trouble-select .pill[data-value="none"]');
+    noneBtn.classList.remove('active');
+    noneBtn.setAttribute('aria-pressed', 'false');
+    state.trouble.delete('none');
+
+    pill.classList.toggle('active');
+    const isActive = pill.classList.contains('active');
+    pill.setAttribute('aria-pressed', String(isActive));
+    if (isActive) {
+      state.trouble.add(value);
+    } else {
+      state.trouble.delete(value);
+    }
+  });
+});
+
+/* Step 2: movement experience */
+
+document.querySelectorAll('#movement-select .option-row').forEach(row => {
+  row.addEventListener('click', () => {
+    document.querySelectorAll('#movement-select .option-row').forEach(r => {
+      r.classList.remove('active');
+      r.setAttribute('aria-checked', 'false');
+      r.querySelector('.radio-mark, .radio-dot').outerHTML = '<span class="radio-dot" aria-hidden="true"></span>';
     });
+    row.classList.add('active');
+    row.setAttribute('aria-checked', 'true');
+    row.querySelector('.radio-dot').outerHTML = '<span class="radio-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>';
+    state.movement = row.dataset.value;
   });
+});
 
-  // -------------------------------------------------------------
-  // 회원가입 Step 이동 처리
-  // -------------------------------------------------------------
-  next1.addEventListener('click', () => {
-    step1.classList.add('hidden');
-    step2.classList.remove('hidden');
+document.getElementById('back-2').addEventListener('click', () => goToStep(1));
+document.getElementById('next-2').addEventListener('click', () => goToStep(3));
+document.getElementById('skip-2').addEventListener('click', () => goToStep(3));
+
+/* Step 3: agreements */
+
+const allAgree = document.getElementById('agree-all');
+const requiredBoxes = document.querySelectorAll('.agree-required');
+const marketingBox = document.getElementById('agree-marketing');
+const next3 = document.getElementById('next-3');
+
+function updateNext3() {
+  const allRequiredChecked = Array.from(requiredBoxes).every(b => b.checked);
+  next3.disabled = !allRequiredChecked;
+}
+
+allAgree.addEventListener('change', () => {
+  requiredBoxes.forEach(b => (b.checked = allAgree.checked));
+  marketingBox.checked = allAgree.checked;
+  updateNext3();
+});
+
+[...requiredBoxes, marketingBox].forEach(box => {
+  box.addEventListener('change', () => {
+    const allChecked = Array.from(requiredBoxes).every(b => b.checked) && marketingBox.checked;
+    allAgree.checked = allChecked;
+    updateNext3();
   });
+});
 
-  back2.addEventListener('click', () => {
-    step2.classList.add('hidden');
-    step1.classList.remove('hidden');
-  });
+document.getElementById('back-3').addEventListener('click', () => goToStep(2));
+next3.addEventListener('click', () => {
+  if (next3.disabled) return;
+  const name = nameInput.value.trim() || 'OOO';
+  document.getElementById('complete-name').textContent = name;
+  goToStep(4);
+});
 
-  next2.addEventListener('click', () => {
-    step2.classList.add('hidden');
-    step3.classList.remove('hidden');
-  });
-
-  skip2.addEventListener('click', () => {
-    step2.classList.add('hidden');
-    step3.classList.remove('hidden');
-  });
-
-  back3.addEventListener('click', () => {
-    step3.classList.add('hidden');
-    step2.classList.remove('hidden');
-  });
-
-  // -------------------------------------------------------------
-  // Step 3 약관 동의 유효성 검사
-  // -------------------------------------------------------------
-  agreeAll.addEventListener('change', (e) => {
-    const isChecked = e.target.checked;
-    agreeRequiredList.forEach(cb => cb.checked = isChecked);
-    if (agreeMarketing) agreeMarketing.checked = isChecked;
-    validateStep3();
-  });
-
-  agreeRequiredList.forEach(cb => {
-    cb.addEventListener('change', () => {
-      validateStep3();
-      updateAgreeAllState();
-    });
-  });
-
-  if (agreeMarketing) {
-    agreeMarketing.addEventListener('change', updateAgreeAllState);
-  }
-
-  function updateAgreeAllState() {
-    const allRequiredChecked = Array.from(agreeRequiredList).every(cb => cb.checked);
-    const marketingChecked = agreeMarketing ? agreeMarketing.checked : true;
-    agreeAll.checked = allRequiredChecked && marketingChecked;
-  }
-
-  function validateStep3() {
-    const allRequiredChecked = Array.from(agreeRequiredList).every(cb => cb.checked);
-    next3.disabled = !allRequiredChecked;
-  }
-
-  next3.addEventListener('click', () => {
-    completeName.textContent = inputName.value.trim();
-    completeTitleText.textContent = "가입이 완료됐어요!";
-    step3.classList.add('hidden');
-    step4.classList.remove('hidden');
-  });
-
-  finish.addEventListener('click', () => {
-    alert('메인 화면으로 이동합니다.');
-  });
+document.getElementById('finish').addEventListener('click', () => {
+  alert('첫 체크 페이지로 이동합니다. (데모)');
 });
