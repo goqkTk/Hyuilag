@@ -3,13 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>휴이락 - 회원가입</title>
+<title>휴이락 - 회원가입 및 로그인</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="page">
   <div class="card">
+
+    <!-- ===================== LOGIN STEP (신규 추가) ===================== -->
+    <section class="step hidden" id="login-step">
+      <header class="header">
+        <div class="logo">휴이락<br>로고</div>
+        <h1 class="title">휴이락</h1>
+        <p class="subtitle">로그인</p>
+        <p class="login-hint">계정이 없으신가요? <a href="#" class="link" id="go-signup">회원가입</a></p>
+      </header>
+
+      <div class="body">
+        <div class="field">
+          <label class="field-label" for="login-name"><span class="dot"></span>이름</label>
+          <input type="text" id="login-name" class="text-input" placeholder="홍길동" autocomplete="name">
+          <p class="field-error" id="error-login-name" hidden>이름을 입력해주세요</p>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="login-phone"><span class="dot"></span>전화번호</label>
+          <input type="tel" id="login-phone" class="text-input" placeholder="010-1234-5678" inputmode="numeric" autocomplete="tel" maxlength="13">
+          <p class="field-error" id="error-login-phone" hidden>올바른 전화번호를 입력해주세요</p>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <button type="button" class="btn btn-primary btn-full" id="btn-login" disabled>로그인</button>
+      </footer>
+    </section>
 
     <!-- ===================== STEP 1 ===================== -->
     <section class="step" id="step-1" data-step="1">
@@ -36,7 +64,7 @@
           </div>
         </div>
 
-        <p class="login-hint">이미 계정이 있으신가요? <a href="#" class="link">로그인</a></p>
+        <p class="login-hint">이미 계정이 있으신가요? <a href="#" class="link" id="go-login">로그인</a></p>
       </header>
 
       <div class="body">
@@ -256,7 +284,7 @@
         <div class="complete-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        <h2 class="complete-title">가입이 완료됐어요!</h2>
+        <h2 class="complete-title" id="complete-title-text">가입이 완료됐어요!</h2>
         <p class="complete-sub"><span id="complete-name">OOO</span>님, 환영합니다<br>지금 바로 첫 체크를 시작해볼까요?</p>
       </div>
 
