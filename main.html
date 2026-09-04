@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>휴이락 - 홈</title>
+<link rel="stylesheet" href="main-style.css">
+</head>
+<body>
+
+<div class="page">
+  <div class="card">
+
+    <header class="header">
+      <p class="greeting">안녕하세요, <strong id="user-name">OOO</strong>님</p>
+      <h1 class="greeting-main">오늘도 체크해볼까요? <span class="wave">👋</span></h1>
+    </header>
+
+    <main class="body">
+
+      <section class="score-section">
+        <div class="score-ring">
+          <svg viewBox="0 0 200 200" class="ring-svg">
+            <circle class="ring-track" cx="100" cy="100" r="88"></circle>
+            <circle class="ring-value" cx="100" cy="100" r="88" id="ring-progress"></circle>
+          </svg>
+          <div class="score-center">
+            <span class="score-num" id="score-num">72</span>
+            <span class="score-unit">점</span>
+          </div>
+        </div>
+        <p class="score-label">이번 주 H-LIFE 점수</p>
+        <p class="score-delta" id="score-delta">지난주보다 <strong>+8점</strong> 올랐어요</p>
+      </section>
+
+      <button type="button" class="cta-check" id="today-check-btn">
+        <span class="cta-text">
+          <span class="cta-title">오늘의 체크</span>
+          <span class="cta-sub">1분이면 충분해요</span>
+        </span>
+        <span class="cta-arrow">→</span>
+      </button>
+
+      <section class="week-section">
+        <div class="week-heading">
+          <p class="section-title">이번 주 기록</p>
+          <p class="week-count" id="week-count">3/7일 완료</p>
+        </div>
+        <div class="week-row" id="week-row">
+          <div class="day done"><span class="day-mark">✓</span><span class="day-label">일</span></div>
+          <div class="day done"><span class="day-mark">✓</span><span class="day-label">월</span></div>
+          <div class="day done"><span class="day-mark">✓</span><span class="day-label">화</span></div>
+          <div class="day today"><span class="day-mark">•</span><span class="day-label">수</span></div>
+          <div class="day"><span class="day-label">목</span></div>
+          <div class="day"><span class="day-label">금</span></div>
+          <div class="day"><span class="day-label">토</span></div>
+        </div>
+      </section>
+
+      <section class="notice">
+        <span class="notice-icon">💬</span>
+        <div class="notice-text">
+          <p class="notice-title">라운지 메시지</p>
+          <p class="notice-body">내일 오전 방문 확인 부탁드려요!</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script src="main-script.js"></script>
+</body>
+</html>
