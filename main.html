@@ -2,73 +2,444 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>휴이락 - 홈</title>
-<link rel="stylesheet" href="main-style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>휴이락</title>
+<style>
+/* ============================================================
+   휴이락 Design Tokens & CSS Reset
+   ============================================================ */
+:root {
+  --primary: #1a6b4a;
+  --primary-dark: #14523a;
+  --page-bg: #f5f4f0;
+  --card-bg: #f5f4f0;
+  --txt-main: #111111;
+  --txt-sub: #666666;
+  --outline: #dcdcd6;
+  --radius-btn: 14px;
+  --radius-box: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--page-bg);
+  color: var(--txt-main);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+.card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--card-bg);
+  padding: 24px 20px;
+  border-radius: 24px;
+  min-height: 620px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+@media (min-width: 480px) {
+  body { background: #eae8e1; }
+  .card {
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.hidden { display: none !important; }
+
+/* 공통 버튼 스타일 */
+.btn {
+  width: 100%;
+  height: 54px;
+  border-radius: var(--radius-btn);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+  border: 1.5px solid var(--outline);
+  background: #ffffff;
+  color: var(--txt-main);
+}
+
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+.btn-primary:active {
+  background: var(--primary-dark);
+}
+
+/* ============================================================
+   1. MAIN SCREEN
+   ============================================================ */
+.greeting { margin-bottom: 20px; }
+.greeting-sub { font-size: 14px; color: var(--txt-sub); margin-bottom: 4px; }
+.greeting-title { font-size: 20px; font-weight: 800; }
+
+.gauge-wrapper { display: flex; flex-direction: column; align-items: center; margin-bottom: 16px; }
+.gauge-chart { position: relative; width: 160px; height: 160px; margin-bottom: 8px; }
+.gauge-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.gauge-bg { fill: none; stroke: #e2e8f0; stroke-width: 14; }
+.gauge-progress {
+  fill: none; stroke: var(--primary); stroke-width: 14; stroke-linecap: round;
+  stroke-dasharray: 458.67; stroke-dashoffset: 0;
+}
+.gauge-inner-text {
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.score-num { font-size: 38px; font-weight: 800; color: var(--primary); line-height: 1; }
+.score-unit { font-size: 13px; color: var(--txt-sub); }
+.gauge-label { font-size: 13px; color: var(--txt-sub); font-weight: 600; }
+
+/* 핵심 액션 버튼 (가장 크게) */
+.btn-main-check {
+  height: 60px;
+  font-size: 19px;
+  font-weight: 800;
+  background: #111111;
+  color: #ffffff;
+  border: none;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* 오늘의 추천 운동 (1개) */
+.rec-exercise-card {
+  background: #ffffff;
+  border: 1.5px solid var(--outline);
+  border-radius: var(--radius-box);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rec-title { font-size: 11px; font-weight: 800; color: var(--primary); text-transform: uppercase; margin-bottom: 2px; }
+.rec-name { font-size: 14px; font-weight: 700; color: #111; }
+.rec-tag { font-size: 12px; color: var(--txt-sub); }
+
+.weekly-section { margin-bottom: 16px; }
+.weekly-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; color: var(--txt-sub); }
+.weekly-grid { display: flex; justify-content: space-between; }
+.day-circle {
+  width: 34px; height: 34px; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+}
+.done-green { background: var(--primary); color: #fff; }
+.done-red { background: #e05252; color: #fff; }
+.done-lightgreen { background: #e5ece6; color: #6a8c78; }
+.future { background: #ebd8c8; color: #8c7362; }
+
+.lounge-box {
+  background: #f5e9ce; border-left: 3px solid #dcb050; border-radius: 12px; padding: 12px 14px;
+}
+.lounge-title { font-size: 12px; font-weight: 800; color: #b37d14; margin-bottom: 2px; }
+.lounge-desc { font-size: 12px; color: #b37d14; font-weight: 600; }
+
+/* ============================================================
+   2. CHECK PROCESS SCREEN (DAILY / INITIAL / WEEKLY)
+   ============================================================ */
+.check-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.check-badge {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--primary);
+  background: #e8f4ee;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+.progress-bar-bg { width: 100%; height: 8px; background: #e8f0eb; border-radius: 10px; overflow: hidden; margin-bottom: 28px; }
+.progress-bar-fill { width: 20%; height: 100%; background: var(--primary); transition: width 0.3s ease; }
+
+.q-title { font-size: 21px; font-weight: 800; line-height: 1.4; margin-bottom: 28px; }
+
+.option-list { display: flex; flex-direction: column; gap: 10px; }
+.option-btn {
+  width: 100%; height: 52px; border-radius: 14px; border: 1.5px solid var(--outline);
+  background: #fff; font-size: 16px; font-weight: 600; color: #333; text-align: left;
+  padding: 0 18px; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+  transition: all 0.15s ease;
+}
+.option-btn:active { border-color: var(--primary); background: #f0fdf4; }
+
+/* ============================================================
+   3. CHECK SUCCESS SCREEN
+   ============================================================ */
+.success-head { text-align: center; margin-top: 10px; }
+.success-icon {
+  width: 50px; height: 50px; border-radius: 50%; background: #e0f2fe; color: var(--primary);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 12px;
+  border: 1px solid #bae6fd; font-size: 20px; font-weight: 800;
+}
+.success-title { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+.success-sub { font-size: 13px; color: var(--txt-sub); }
+
+.score-card {
+  background: #e8f4ee; border-radius: 20px; padding: 20px; text-align: center; margin: 20px 0;
+}
+.score-card-label { font-size: 12px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
+.score-card-val { font-size: 40px; font-weight: 900; color: #111; line-height: 1; }
+.score-card-max { font-size: 12px; color: var(--txt-sub); margin-top: 4px; margin-bottom: 12px; }
+.score-bar-bg { width: 100%; height: 8px; background: #cce7d8; border-radius: 4px; overflow: hidden; }
+.score-bar-fill { width: 100%; height: 100%; background: var(--primary); transition: width 0.5s ease; }
+
+.guide-text { text-align: center; font-size: 13px; color: var(--txt-sub); line-height: 1.4; margin-bottom: 16px; }
+.btn-group { display: flex; flex-direction: column; gap: 8px; }
+
+</style>
 </head>
 <body>
 
-<div class="page">
-  <div class="card">
+<div class="card">
 
-    <header class="header">
-      <p class="greeting">안녕하세요, <strong id="user-name">OOO</strong>님</p>
-      <h1 class="greeting-main">오늘도 체크해볼까요? <span class="wave">👋</span></h1>
-    </header>
+  <!-- ==================== 1. Main Home ==================== -->
+  <section id="screen-main">
+    <div>
+      <div class="greeting">
+        <p class="greeting-sub">안녕하세요, OOO님</p>
+        <h1 class="greeting-title">오늘도 체크해볼까요?</h1>
+      </div>
 
-    <main class="body">
-
-      <section class="score-section">
-        <div class="score-ring">
-          <svg viewBox="0 0 200 200" class="ring-svg">
-            <circle class="ring-track" cx="100" cy="100" r="88"></circle>
-            <circle class="ring-value" cx="100" cy="100" r="88" id="ring-progress"></circle>
+      <!-- 나의 실천 점수 (100점 기준) -->
+      <div class="gauge-wrapper">
+        <div class="gauge-chart">
+          <svg class="gauge-svg" viewBox="0 0 160 160">
+            <circle class="gauge-bg" cx="80" cy="80" r="73"></circle>
+            <circle class="gauge-progress" id="main-gauge-circle" cx="80" cy="80" r="73"></circle>
           </svg>
-          <div class="score-center">
-            <span class="score-num" id="score-num">72</span>
+          <div class="gauge-inner-text">
+            <span class="score-num" id="main-score-display">100</span>
             <span class="score-unit">점</span>
           </div>
         </div>
-        <p class="score-label">이번 주 H-LIFE 점수</p>
-        <p class="score-delta" id="score-delta">지난주보다 <strong>+8점</strong> 올랐어요</p>
-      </section>
+        <span class="gauge-label">나의 실천 점수 (100점 기준)</span>
+      </div>
 
-      <button type="button" class="cta-check" id="today-check-btn">
-        <span class="cta-text">
-          <span class="cta-title">오늘의 체크</span>
-          <span class="cta-sub">1분이면 충분해요</span>
-        </span>
-        <span class="cta-arrow">→</span>
-      </button>
+      <!-- 핵심 버튼: 오늘 체크하기 (가장 크게 표시) -->
+      <button type="button" class="btn btn-main-check" id="btn-start-daily">오늘 체크하기</button>
 
-      <section class="week-section">
-        <div class="week-heading">
-          <p class="section-title">이번 주 기록</p>
-          <p class="week-count" id="week-count">3/7일 완료</p>
+      <!-- 오늘의 추천 운동 (1개만 제시) -->
+      <div class="rec-exercise-card">
+        <div>
+          <p class="rec-title">오늘의 추천 운동</p>
+          <p class="rec-name">의자 하체 근력 케어</p>
         </div>
-        <div class="week-row" id="week-row">
-          <div class="day done"><span class="day-mark">✓</span><span class="day-label">일</span></div>
-          <div class="day done"><span class="day-mark">✓</span><span class="day-label">월</span></div>
-          <div class="day done"><span class="day-mark">✓</span><span class="day-label">화</span></div>
-          <div class="day today"><span class="day-mark">•</span><span class="day-label">수</span></div>
-          <div class="day"><span class="day-label">목</span></div>
-          <div class="day"><span class="day-label">금</span></div>
-          <div class="day"><span class="day-label">토</span></div>
-        </div>
-      </section>
+        <span class="rec-tag">약 10분 소요 ›</span>
+      </div>
 
-      <section class="notice">
-        <span class="notice-icon">💬</span>
-        <div class="notice-text">
-          <p class="notice-title">라운지 메시지</p>
-          <p class="notice-body">내일 오전 방문 확인 부탁드려요!</p>
+      <!-- 이번 주 출석/기록률 -->
+      <div class="weekly-section">
+        <h2 class="weekly-title">이번 주 출석 / 기록률</h2>
+        <div class="weekly-grid">
+          <div class="day-circle done-green">일</div>
+          <div class="day-circle done-red">월</div>
+          <div class="day-circle done-green">화</div>
+          <div class="day-circle done-green">수</div>
+          <div class="day-circle done-green">목</div>
+          <div class="day-circle done-lightgreen">금</div>
+          <div class="day-circle future">토</div>
         </div>
-      </section>
+      </div>
+    </div>
 
-    </main>
-  </div>
+    <!-- 라운지 메시지 (직원 공지) -->
+    <div class="lounge-box">
+      <div class="lounge-title">라운지 메시지</div>
+      <div class="lounge-desc">내일 오전 방문 확인 부탁드려요!</div>
+    </div>
+  </section>
+
+
+  <!-- ==================== 2. Check Process (Daily / Weekly / Initial) ==================== -->
+  <section id="screen-check" class="hidden">
+    <div>
+      <div class="check-header">
+        <span class="check-badge" id="check-type-badge">매일 체크</span>
+        <span style="font-size: 12px; color: var(--txt-sub);" id="check-time-estimate">약 30초 소요</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="check-progress"></div>
+      </div>
+      <h2 class="q-title" id="q-title">질문 텍스트가 표시됩니다</h2>
+
+      <div class="option-list" id="option-container">
+        <!-- 동적 선택지 생성 -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ==================== 3. Check Success ==================== -->
+  <section id="screen-success" class="hidden">
+    <div>
+      <div class="success-head">
+        <div class="success-icon">✓</div>
+        <h2 class="success-title">오늘의 체크 완료!</h2>
+        <p class="success-sub">모든 항목이 성공적으로 기록되었습니다</p>
+      </div>
+
+      <div class="score-card">
+        <p class="score-card-label">오늘 실천 점수</p>
+        <p class="score-card-val" id="result-score">100</p>
+        <p class="score-card-max">/ 100점</p>
+        <div class="score-bar-bg">
+          <div class="score-bar-fill" id="result-bar"></div>
+        </div>
+      </div>
+
+      <p class="guide-text">체크 결과가 저장을 마쳤습니다.<br>주간 분석 및 H-TYPE을 확인해보세요.</p>
+    </div>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary" id="btn-to-main-done">메인 홈으로 이동</button>
+    </div>
+  </section>
+
 </div>
 
-<script src="main-script.js"></script>
+<script>
+(function() {
+  // 1. 매일 체크 질문 데이터 (30초~1분 프로세스)
+  const dailyQuestions = [
+    {
+      title: "1. 오늘 20분 이상 걸으셨나요?",
+      options: [
+        { txt: "예", score: 20 },
+        { txt: "아니오", score: 0 },
+        { txt: "10분 정도", score: 10 }
+      ]
+    },
+    {
+      title: "2. 오늘 오래 앉아있는 시간을<br>중간에 끊으셨나요?",
+      options: [
+        { txt: "예", score: 20 },
+        { txt: "아니오", score: 0 }
+      ]
+    },
+    {
+      title: "3. 오늘 스트레칭이나<br>가벼운 운동을 하셨나요?",
+      options: [
+        { txt: "예", score: 20 },
+        { txt: "아니오", score: 0 }
+      ]
+    },
+    {
+      title: "4. 오늘 몸에 통증이나<br>불편감이 있었나요?",
+      options: [
+        { txt: "없음", score: 20 },
+        { txt: "조금 있음", score: 10 },
+        { txt: "심함", score: 0 }
+      ]
+    },
+    {
+      title: "5. 오늘 컨디션은 어떤가요?",
+      options: [
+        { txt: "좋음", score: 20 },
+        { txt: "보통", score: 10 },
+        { txt: "나쁨", score: 0 }
+      ]
+    }
+  ];
+
+  let currentQIndex = 0;
+  let accumulatedScore = 0;
+
+  // DOM Elements
+  const screens = {
+    main: document.getElementById('screen-main'),
+    check: document.getElementById('screen-check'),
+    success: document.getElementById('screen-success')
+  };
+
+  function showScreen(targetKey) {
+    Object.keys(screens).forEach(key => {
+      screens[key].classList.toggle('hidden', key !== targetKey);
+    });
+  }
+
+  // 질문 출력 함수
+  function renderDailyQuestion() {
+    const q = dailyQuestions[currentQIndex];
+    document.getElementById('q-title').innerHTML = q.title;
+    
+    // 진행률 계산
+    const progressPercent = ((currentQIndex + 1) / dailyQuestions.length) * 100;
+    document.getElementById('check-progress').style.width = `${progressPercent}%`;
+
+    const container = document.getElementById('option-container');
+    container.innerHTML = '';
+
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerHTML = `<span>${opt.txt}</span><span style="color:var(--txt-sub); font-size:14px;">›</span>`;
+      btn.onclick = () => {
+        accumulatedScore += opt.score;
+        currentQIndex++;
+        if (currentQIndex < dailyQuestions.length) {
+          renderDailyQuestion();
+        } else {
+          finishDailyCheck();
+        }
+      };
+      container.appendChild(btn);
+    });
+  }
+
+  function finishDailyCheck() {
+    // 결과 반영
+    document.getElementById('result-score').textContent = accumulatedScore;
+    document.getElementById('result-bar').style.width = `${accumulatedScore}%`;
+    
+    // 메인 게이지 반영
+    document.getElementById('main-score-display').textContent = accumulatedScore;
+    const offset = 458.67 - (458.67 * accumulatedScore / 100);
+    document.getElementById('main-gauge-circle').style.strokeDashoffset = offset;
+
+    showScreen('success');
+  }
+
+  // Event Listeners
+  document.getElementById('btn-start-daily').onclick = () => {
+    currentQIndex = 0;
+    accumulatedScore = 0;
+    document.getElementById('check-type-badge').textContent = "매일 체크";
+    document.getElementById('check-time-estimate').textContent = "약 30초 소요";
+    renderDailyQuestion();
+    showScreen('check');
+  };
+
+  document.getElementById('btn-to-main-done').onclick = () => {
+    showScreen('main');
+  };
+
+})();
+</script>
 </body>
 </html>
